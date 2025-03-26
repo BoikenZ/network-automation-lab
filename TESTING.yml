@@ -1,0 +1,20 @@
+---
+- name: Configure G2/0 
+  hosts: R1
+  gather_facts: no
+  tasks:
+  
+    - name: Configuring interface 
+      ios_config:
+        lines:
+          - "int g2/0"
+          - "ip address 10.0.1.1 255.255.255.252"
+          - "no shut"
+        save_when: modified
+      register: result
+      become: yes
+      become_method: enable
+
+    - name: Show output of the configuration
+      debug:
+        var: result
